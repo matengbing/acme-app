@@ -1,0 +1,78 @@
+/*package com.acme.app.mapper.premission;
+
+
+
+import java.util.List;
+
+import com.acme.app.dto.premission.CompanyUserPremissionDto;
+import com.acme.app.model.premission.CompanyUserPremission;
+
+public interface ComUserPremissionMapper {
+	*//**
+	 * 插入一条记录
+	 * *//*
+	Long insert(CompanyUserPremission companyUserPremission);
+	
+	*//**
+	 * 修改某userKey的权限
+	 * @param CompanyUserPremission
+	 * *//*
+	void update(CompanyUserPremission companyUserPremission);
+	*//**
+	 * 通过userKey删除对应用户的权限信息
+	 * @param String
+	 * *//*
+	void deleteByUserKey(String userKey);
+	*//**
+	 * 删除userId用户的所有权限信息,主要用于删除某企业用户时的关联删除
+	 * @param String
+	 * *//*
+	void deleteByUserId(Long userId);
+	*//**
+	 * 删除urlId的所有权限信息,主要用于删除url时的关联删除
+	 * @param String
+	 * *//*
+	void deleteByUrlId(Long urlId);
+	*//**
+	 * 删除一条记录
+	 * @param String userKey,Long UserId,Long urlId
+	 * *//*
+	void deletePre(String userKey,Long UserId,Long urlId);
+	*//**
+	 * 通过userKey查找对应用户的权限信息
+	 * @param String
+	 * @return List<CompanyUserPremissionDto>
+	 * *//*
+	List<CompanyUserPremission> selectByUserKey(String userKey);
+	*//**
+	 * 通过id查询记录
+	 * @param Long
+	 * @return CompanyUserPremission
+	 * *//*
+	CompanyUserPremission selectById(Long id);
+	*//**
+	 * 通过urlId查找该url所有的权限信息
+	 * @param Long
+	 * @return List<CompanyUserPremission>
+	 * *//*
+	List<CompanyUserPremission> selectByUrlId(Long urlId);
+	*//**
+	 * 通过urlId查找该url所有的权限信息
+	 * @param Long
+	 * @return List<CompanyUserPremission>
+	 * *//*
+	List<CompanyUserPremission> selectByComUserId(Long userId);
+	*//**
+	 * 通过userKey和UserId和urlId查询用户权限信息
+	 * @param String userKey,Long UserId,Long urlId
+	 * @return CompanyUserPremission
+	 * *//*
+	CompanyUserPremission selectPre(String userKey,Long userId,Long urlId);
+	*//**
+	 * 通过userKey和urlId查询用户权限信息,主要用于查看该用户是否有创建用户的权利
+	 * @param String userKeyLong urlId
+	 * @return CompanyUserPremission
+	 * *//*
+	CompanyUserPremission selectPreByUKAndUrlId(String userKey,Long urlId);
+}
+*/

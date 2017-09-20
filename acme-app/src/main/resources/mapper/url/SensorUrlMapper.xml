@@ -1,0 +1,64 @@
+<!-- <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.acme.app.mapper.url.SensorUrlMapper">
+	 <sql id="set_column_list">
+  	  path = #{path,jdbcType=VARCHAR},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP}
+  </sql>
+  
+  <resultMap id="BaseResultMap" type="com.acme.app.model.url.DeviceSensorUrl">
+    <id column="url_sensor_id" jdbcType="BIGINT" property="id" />
+    <result column="path" jdbcType="VARCHAR" property="path" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    url_sensor_id as id, path, gmt_create, gmt_modified
+  </sql>
+  
+  <insert id="insert" parameterType="com.acme.app.model.url.DeviceSensorUrl" useGeneratedKeys="true" keyProperty="id">
+	    insert into url_sensor
+	    		(path,gmt_create, gmt_modified)
+	    values 
+	    		(#{path}, #{gmtCreate}, #{gmtModified})
+  </insert>
+  
+   <delete id="deleteById" parameterType="java.lang.Long">
+		delete from url_sensor
+		    where url_sensor_id = #{id}
+  </delete>
+  <update id="update" parameterType="com.acme.app.model.url.DeviceSensorUrl">
+	    update url_sensor
+	    set 
+	    <include refid="set_column_list"></include>
+	    where url_sensor_id = #{id}
+  </update>
+  <select id="selectById" parameterType="java.lang.Long" resultType="com.acme.app.model.url.DeviceSensorUrl">
+  		select 
+  			<include refid="Base_Column_List"></include>
+  			from url_sensor
+  			where url_sensor_id = #{id}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+  		select 
+  			<include refid="Base_Column_List"></include>
+  		from url_sensor
+  </select>
+  <select id="getCount" resultType="java.lang.Long">
+  		select count(url_sensor_id)
+  		from url_sensor
+  </select>
+  <select id="selectByPath" parameterType="java.lang.String" resultType="com.acme.app.model.url.DeviceSensorUrl">
+  		select 
+  			<include refid="Base_Column_List"></include>
+  		from url_sensor
+  		where path=#{path}
+  </select>
+   <select id="VagueSelectByPath" parameterType="java.lang.String" resultMap="BaseResultMap">
+  		select 
+  			<include refid="Base_Column_List"></include>
+  		from url_sensor
+  		where path like "%"#{path}"%"; 
+  </select>
+ 
+</mapper> -->

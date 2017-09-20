@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.acme.app.mapper.device.StationInfoMapper">
+  <resultMap id="BaseResultMap" type="com.acme.app.model.reptile.StationInfo">
+    <result column="id" jdbcType="VARCHAR" property="id" />
+    <result column="thewlevel" jdbcType="VARCHAR" property="thewlevel" />
+    <result column="faulkind" jdbcType="VARCHAR" property="faulkind" />
+    <result column="wissue" jdbcType="VARCHAR" property="wissue" />
+    <result column="wdo" jdbcType="VARCHAR" property="wdo" />
+    <result column="prewlevel" jdbcType="VARCHAR" property="prewlevel" />
+    <result column="valley" jdbcType="VARCHAR" property="valley" />
+    <result column="contamination" jdbcType="VARCHAR" property="contamination" />
+    <result column="codmn" jdbcType="VARCHAR" property="codmn" />
+    <result column="nhthn" jdbcType="VARCHAR" property="nhthn" />
+    <result column="waterplace" jdbcType="VARCHAR" property="waterplace" />
+    <result column="wph" jdbcType="VARCHAR" property="wph" />
+    <result column="wpubdate" jdbcType="VARCHAR" property="wpubdate" />
+    <result column="year" jdbcType="VARCHAR" property="year" />
+    <result column="watername" jdbcType="VARCHAR" property="watername" />
+    <result column="week" jdbcType="VARCHAR" property="week" />
+  </resultMap>
+  <insert id="insert" parameterType="list">
+    insert into station_info (id, thewlevel, faulkind, 
+      wissue, wdo, prewlevel, 
+      valley, contamination, codmn, 
+      nhthn, waterplace, wph, 
+      wpubdate, year, watername, 
+      week)
+    values
+    <foreach collection="list" item="item" separator=",">
+    	 (#{item.id,jdbcType=VARCHAR}, #{item.thewlevel,jdbcType=VARCHAR}, #{item.faulkind,jdbcType=VARCHAR}, 
+      #{item.wissue,jdbcType=VARCHAR}, #{item.wdo,jdbcType=VARCHAR}, #{item.prewlevel,jdbcType=VARCHAR}, 
+      #{item.valley,jdbcType=VARCHAR}, #{item.contamination,jdbcType=VARCHAR}, #{item.codmn,jdbcType=VARCHAR}, 
+      #{item.nhthn,jdbcType=VARCHAR}, #{item.waterplace,jdbcType=VARCHAR}, #{item.wph,jdbcType=VARCHAR}, 
+      #{item.wpubdate,jdbcType=VARCHAR}, #{item.year,jdbcType=VARCHAR}, #{item.watername,jdbcType=VARCHAR}, 
+      #{item.week,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+  <select id="getWaterPlace" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select  id, thewlevel, faulkind, 
+      wissue, wdo, prewlevel, 
+      valley, contamination, codmn, 
+      nhthn, waterplace, wph, 
+      wpubdate, year, watername, 
+      week
+      from station_info
+      where
+      week=#{week,jdbcType=VARCHAR}
+  </select>
+  <select id="findStationByLike" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select  id, thewlevel, faulkind, 
+      wissue, wdo, prewlevel, 
+      valley, contamination, codmn, 
+      nhthn, waterplace, wph, 
+      wpubdate, year, watername, 
+      week
+      from station_info
+      where
+      waterplace like  concat(concat('%',#{waterplace,jdbcType=VARCHAR}),'%')
+  </select>
+  <insert id="insertSelective" parameterType="com.acme.app.model.reptile.StationInfo">
+    insert into station_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="thewlevel != null">
+        thewlevel,
+      </if>
+      <if test="faulkind != null">
+        faulkind,
+      </if>
+      <if test="wissue != null">
+        wissue,
+      </if>
+      <if test="wdo != null">
+        wdo,
+      </if>
+      <if test="prewlevel != null">
+        prewlevel,
+      </if>
+      <if test="valley != null">
+        valley,
+      </if>
+      <if test="contamination != null">
+        contamination,
+      </if>
+      <if test="codmn != null">
+        codmn,
+      </if>
+      <if test="nhthn != null">
+        nhthn,
+      </if>
+      <if test="waterplace != null">
+        waterplace,
+      </if>
+      <if test="wph != null">
+        wph,
+      </if>
+      <if test="wpubdate != null">
+        wpubdate,
+      </if>
+      <if test="year != null">
+        year,
+      </if>
+      <if test="watername != null">
+        watername,
+      </if>
+      <if test="week != null">
+        week,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="thewlevel != null">
+        #{thewlevel,jdbcType=VARCHAR},
+      </if>
+      <if test="faulkind != null">
+        #{faulkind,jdbcType=VARCHAR},
+      </if>
+      <if test="wissue != null">
+        #{wissue,jdbcType=VARCHAR},
+      </if>
+      <if test="wdo != null">
+        #{wdo,jdbcType=VARCHAR},
+      </if>
+      <if test="prewlevel != null">
+        #{prewlevel,jdbcType=VARCHAR},
+      </if>
+      <if test="valley != null">
+        #{valley,jdbcType=VARCHAR},
+      </if>
+      <if test="contamination != null">
+        #{contamination,jdbcType=VARCHAR},
+      </if>
+      <if test="codmn != null">
+        #{codmn,jdbcType=VARCHAR},
+      </if>
+      <if test="nhthn != null">
+        #{nhthn,jdbcType=VARCHAR},
+      </if>
+      <if test="waterplace != null">
+        #{waterplace,jdbcType=VARCHAR},
+      </if>
+      <if test="wph != null">
+        #{wph,jdbcType=VARCHAR},
+      </if>
+      <if test="wpubdate != null">
+        #{wpubdate,jdbcType=VARCHAR},
+      </if>
+      <if test="year != null">
+        #{year,jdbcType=VARCHAR},
+      </if>
+      <if test="watername != null">
+        #{watername,jdbcType=VARCHAR},
+      </if>
+      <if test="week != null">
+        #{week,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.acme.app.mapper.device.DeviceMapper">
+  <resultMap id="BaseResultMap" type="com.acme.app.model.device.Device">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="user_key" jdbcType="CHAR" property="userKey" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="about" jdbcType="VARCHAR" property="about" />
+    <result column="lat" jdbcType="DECIMAL" property="lat" />
+    <result column="lng" jdbcType="DECIMAL" property="lng" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_key, title, type, about, lat, lng, gmt_create, gmt_modified
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from device
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="findDeviceByCondition" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from device
+    <where>
+    	user_key=#{userKey}
+    </where>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from device
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.acme.app.model.device.Device" useGeneratedKeys="true"  keyColumn="id" keyProperty="id"  >
+    insert into device (id,user_key, title, 
+      type, about, lat, lng, 
+      gmt_create, gmt_modified)
+    values (#{id,jdbcType=BIGINT},#{userKey,jdbcType=CHAR}, #{title,jdbcType=VARCHAR}, 
+      #{type,jdbcType=INTEGER}, #{about,jdbcType=VARCHAR}, #{lat,jdbcType=DECIMAL}, #{lng,jdbcType=DECIMAL}, 
+      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.acme.app.model.device.Device">
+    insert into device
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userKey != null">
+        user_key,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="about != null">
+        about,
+      </if>
+      <if test="lat != null">
+        lat,
+      </if>
+      <if test="lng != null">
+        lng,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userKey != null">
+        #{userKey,jdbcType=CHAR},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="about != null">
+        #{about,jdbcType=VARCHAR},
+      </if>
+      <if test="lat != null">
+        #{lat,jdbcType=DECIMAL},
+      </if>
+      <if test="lng != null">
+        #{lng,jdbcType=DECIMAL},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.acme.app.model.device.Device">
+    update device
+    <set>
+      <if test="userKey != null">
+        user_key = #{userKey,jdbcType=CHAR},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="about != null">
+        about = #{about,jdbcType=VARCHAR},
+      </if>
+      <if test="lat != null">
+        lat = #{lat,jdbcType=DECIMAL},
+      </if>
+      <if test="lng != null">
+        lng = #{lng,jdbcType=DECIMAL},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.acme.app.model.device.Device">
+    update device
+    set user_key = #{userKey,jdbcType=CHAR},
+      title = #{title,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER},
+      about = #{about,jdbcType=VARCHAR},
+      lat = #{lat,jdbcType=DECIMAL},
+      lng = #{lng,jdbcType=DECIMAL},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <select id="findDevicebyId" resultMap="BaseResultMap">
+  	select <include refid="Base_Column_List"></include>
+  	from device where user_key=#{userKey,jdbcType=CHAR}
+  	and id=#{deviceId,jdbcType=INTEGER}
+  </select>
+</mapper>

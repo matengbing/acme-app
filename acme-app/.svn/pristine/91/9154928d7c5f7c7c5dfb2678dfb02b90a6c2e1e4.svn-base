@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.acme.app.mapper.premission.ComUserPremissionMapper">
+	
+  <resultMap id="result_userKey_pre" type="com.acme.app.model.premission.CompanyUserPremission">
+    <id column="pre_user_user_id" jdbcType="BIGINT" property="id" />
+    <result column="user_key" jdbcType="CHAR" property="userKey" /> 
+    <result column="company_user_id" jdbcType="BIGINT" property="companyUserId" />
+    <result column="url_id" jdbcType="BIGINT" property="urlId"/>
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+  </resultMap>
+  <sql id="set_base_column">
+  		user_key=#{userKey},
+  		url_id=#{urlId},
+  		company_user_id=#{companyUserId},
+  		gmt_modified=#{gmtModified}
+  </sql>
+  <sql id="Base_Column_List">
+    pre_user_user_id as id, user_key as userKey, company_user_id as companyUserId, url_id as urlId, gmt_create as gmtCreate, gmt_modified as gmtModified
+ 
+  </sql>
+  <insert id="insert" parameterType="com.acme.app.model.premission.CompanyUserPremission" useGeneratedKeys="true" keyProperty="id">
+  		insert into pre_user_user(user_key,company_user_id,url_id,gmt_create,gmt_modified)
+  			values(#{userKey},#{companyUserId},#{urlId},#{gmtCreate},#{gmtModified})
+  </insert>
+  <update id="update" parameterType="com.acme.app.model.premission.CompanyUserPremission">
+  		update pre_user_user
+  		set 
+  			<include refid="set_base_column"></include>
+  		where pre_user_user_id =#{id}
+  </update>
+   <delete id="deleteByUserKey" parameterType="java.lang.String">
+  		delete
+  		from pre_user_user
+  		where user_key=#{userKey}
+  </delete>
+  <delete id="deleteByUserId" parameterType="java.lang.Long">
+  		delete
+  		from pre_user_user
+  		where company_user_id=#{userId}
+  </delete>
+  <delete id="deleteByUrlId" parameterType="java.lang.Long">
+  		delete 
+  		from pre_user_user
+  		where url_id=#{urlId}
+  </delete>
+  <delete id="deletePre">
+  		delete 
+  		from pre_user_user
+  		where user_key=#{0} and company_user_id=#{1} and url_id=#{2}
+  </delete>
+  <select id="selectByUserKey" parameterType="java.lang.String" resultMap="result_userKey_pre">
+  		select  
+  			<include refid="Base_Column_List"></include>
+  		from pre_user_user
+  		where user_key=#{userKey}
+  </select>
+  <select id="selectById" parameterType="java.lang.Long" resultType="com.acme.app.model.premission.CompanyUserPremission">
+  		select 
+  			<include refid="Base_Column_List"></include>
+  		from pre_user_user
+  		where pre_user_user_id=#{id}
+  		limit 1
+  </select>
+  <select id="selectByUrlId" resultMap="result_userKey_pre">
+  		select 
+  			<include refid="Base_Column_List"></include>
+  		from pre_user_user
+  		where url_id=#{urlId}
+  </select>
+  <select id="selectByComUserId" resultMap="result_userKey_pre">
+  		select 
+			<include refid="Base_Column_List"></include>
+  		from pre_user_user
+  		where company_user_id=#{userId}
+  </select>
+  <select id="selectPre" resultType="com.acme.app.model.premission.CompanyUserPremission">
+  		select 
+			<include refid="Base_Column_List"></include>
+  		from pre_user_user
+  		where user_key=#{0} and company_user_id=#{1} and url_id=#{2}
+  		limit 1
+  </select>
+  <select id="selectPreByUKAndUrlId" resultType="com.acme.app.model.premission.CompanyUserPremission">
+  		select 
+			<include refid="Base_Column_List"></include>
+  		from pre_user_user
+  		where user_key=#{0}  and url_id=#{1}
+  		limit 1
+  </select>
+</mapper>

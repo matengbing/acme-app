@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.acme.app.mapper.river.AcmeRiverChildMapper">
+  <resultMap id="BaseResultMap" type="com.acme.app.model.river.AcmeRiverChild">
+    <result column="_id" jdbcType="VARCHAR" property="id" />
+    <result column="child_id" jdbcType="VARCHAR" property="childId" />
+    <result column="child_name" jdbcType="VARCHAR" property="childName" />
+    <result column="river_name" jdbcType="VARCHAR" property="riverName" />
+    <result column="river_info" jdbcType="VARCHAR" property="riverInfo" />
+    <result column="river_id" jdbcType="VARCHAR" property="riverId" />
+    <result column="lat" jdbcType="VARCHAR" property="lat" />
+    <result column="lng" jdbcType="VARCHAR" property="lng" />
+    <result column="image_id" jdbcType="VARCHAR" property="imageId" />
+  </resultMap>
+  <insert id="insert" parameterType="com.acme.app.model.river.AcmeRiverChild">
+    insert into acme_river_child (_id, child_id, child_name, 
+      river_name, river_info, river_id, 
+      lat, lng, image_id)
+    values (#{id,jdbcType=VARCHAR}, #{childId,jdbcType=VARCHAR}, #{childName,jdbcType=VARCHAR}, 
+      #{riverName,jdbcType=VARCHAR}, #{riverInfo,jdbcType=VARCHAR}, #{riverId,jdbcType=VARCHAR}, 
+      #{lat,jdbcType=VARCHAR}, #{lng,jdbcType=VARCHAR}, #{imageId,jdbcType=VARCHAR})
+  </insert>
+  <select id="findList" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  	select _id, child_id, child_name, 
+      river_name, river_info, river_id, 
+      lat, lng, image_id from acme_river_child
+      <if test="riverId !=null ">
+     	 where  river_id=#{riverId,jdbcType=BIGINT}
+      </if>
+      
+  </select>
+  <select id="findRiverId" resultMap="BaseResultMap">
+  	select _id, child_id, child_name, 
+      river_name, river_info, river_id, 
+      lat, lng, image_id from acme_river_child
+      	where  child_name=#{childName,jdbcType=VARCHAR}
+  </select>
+  <insert id="insertSelective" parameterType="com.acme.app.model.river.AcmeRiverChild">
+    insert into acme_river_child
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        _id,
+      </if>
+      <if test="childId != null">
+        child_id,
+      </if>
+      <if test="childName != null">
+        child_name,
+      </if>
+      <if test="riverName != null">
+        river_name,
+      </if>
+      <if test="riverInfo != null">
+        river_info,
+      </if>
+      <if test="riverId != null">
+        river_id,
+      </if>
+      <if test="lat != null">
+        lat,
+      </if>
+      <if test="lng != null">
+        lng,
+      </if>
+      <if test="imageId != null">
+        image_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="childId != null">
+        #{childId,jdbcType=VARCHAR},
+      </if>
+      <if test="childName != null">
+        #{childName,jdbcType=VARCHAR},
+      </if>
+      <if test="riverName != null">
+        #{riverName,jdbcType=VARCHAR},
+      </if>
+      <if test="riverInfo != null">
+        #{riverInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="riverId != null">
+        #{riverId,jdbcType=VARCHAR},
+      </if>
+      <if test="lat != null">
+        #{lat,jdbcType=VARCHAR},
+      </if>
+      <if test="lng != null">
+        #{lng,jdbcType=VARCHAR},
+      </if>
+      <if test="imageId != null">
+        #{imageId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

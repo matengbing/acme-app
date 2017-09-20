@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.acme.app.mapper.device.DataPointMapper">
+  <resultMap id="BaseResultMap" type="com.acme.app.model.device.DataPoint">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="device_id" jdbcType="BIGINT" property="deviceId" />
+    <result column="sensor_id" jdbcType="BIGINT" property="sensorId" />
+    <result column="data_type" jdbcType="INTEGER" property="dataType" />
+    <result column="lat" jdbcType="DECIMAL" property="lat" />
+    <result column="lng" jdbcType="DECIMAL" property="lng" />
+    <result column="value" jdbcType="VARCHAR" property="value" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, device_id, sensor_id, data_type, lat, lng, value, gmt_create, gmt_modified
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from data_point
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="findAllDataPointBySensor" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from data_point
+  	<where>
+  		1=1
+  		<if test="queryBean.deviceId !=null">
+  			AND	device_id =#{queryBean.deviceId,jdbcType=BIGINT}
+  		</if>
+  		<if test="queryBean.sensorId !=null">
+  			AND sensor_id =#{queryBean.sensorId,jdbcType=BIGINT}
+  		</if>
+  		<if test="queryBean.start !=null and queryBean.end !=null">
+  			<![CDATA[ AND gmt_create >=#{queryBean.start,jdbcType=TIMESTAMP}]]>
+  			<![CDATA[ AND gmt_create <=#{queryBean.end,jdbcType=TIMESTAMP}]]>
+  		</if>
+  	</where>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from data_point
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteBySensor" parameterType="list">
+  	delete from data_point 
+  	where sensor_id in
+  	<foreach collection="array" open="(" close=")" item="id" separator=",">
+      #{id,jdbcType=BIGINT}
+    </foreach>
+  </delete>
+  <insert id="insert" parameterType="com.acme.app.model.device.DataPoint">
+    insert into data_point (id, device_id, sensor_id, 
+      data_type, lat, lng, 
+      value, gmt_create, gmt_modified
+      )
+    values (#{id,jdbcType=BIGINT}, #{deviceId,jdbcType=BIGINT}, #{sensorId,jdbcType=BIGINT}, 
+      #{dataType,jdbcType=INTEGER}, #{lat,jdbcType=DECIMAL}, #{lng,jdbcType=DECIMAL}, 
+      #{value,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.acme.app.model.device.DataPoint">
+    insert into data_point
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="deviceId != null">
+        device_id,
+      </if>
+      <if test="sensorId != null">
+        sensor_id,
+      </if>
+      <if test="dataType != null">
+        data_type,
+      </if>
+      <if test="lat != null">
+        lat,
+      </if>
+      <if test="lng != null">
+        lng,
+      </if>
+      <if test="value != null">
+        value,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="deviceId != null">
+        #{deviceId,jdbcType=BIGINT},
+      </if>
+      <if test="sensorId != null">
+        #{sensorId,jdbcType=BIGINT},
+      </if>
+      <if test="dataType != null">
+        #{dataType,jdbcType=INTEGER},
+      </if>
+      <if test="lat != null">
+        #{lat,jdbcType=DECIMAL},
+      </if>
+      <if test="lng != null">
+        #{lng,jdbcType=DECIMAL},
+      </if>
+      <if test="value != null">
+        #{value,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.acme.app.model.device.DataPoint">
+    update data_point
+    <set>
+      <if test="deviceId != null">
+        device_id = #{deviceId,jdbcType=BIGINT},
+      </if>
+      <if test="sensorId != null">
+        sensor_id = #{sensorId,jdbcType=BIGINT},
+      </if>
+      <if test="dataType != null">
+        data_type = #{dataType,jdbcType=INTEGER},
+      </if>
+      <if test="lat != null">
+        lat = #{lat,jdbcType=DECIMAL},
+      </if>
+      <if test="lng != null">
+        lng = #{lng,jdbcType=DECIMAL},
+      </if>
+      <if test="value != null">
+        value = #{value,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.acme.app.model.device.DataPoint">
+    update data_point
+    set device_id = #{deviceId,jdbcType=BIGINT},
+      sensor_id = #{sensorId,jdbcType=BIGINT},
+      data_type = #{dataType,jdbcType=INTEGER},
+      lat = #{lat,jdbcType=DECIMAL},
+      lng = #{lng,jdbcType=DECIMAL},
+      value = #{value,jdbcType=VARCHAR},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

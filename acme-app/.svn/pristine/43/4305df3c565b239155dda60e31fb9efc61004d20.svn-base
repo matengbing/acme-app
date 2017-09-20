@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.acme.app.mapper.device.SiteDataMapper">
+  <resultMap id="BaseResultMap" type="com.acme.app.model.reptile.SiteData">
+    <result column="wpubdate" jdbcType="VARCHAR" property="wpubdate" />
+    <result column="waterplace" jdbcType="VARCHAR" property="waterplace" />
+    <result column="wph" jdbcType="VARCHAR" property="wph" />
+    <result column="thewlevel" jdbcType="VARCHAR" property="thewlevel" />
+    <result column="a" jdbcType="VARCHAR" property="a" />
+    <result column="nhthn" jdbcType="VARCHAR" property="nhthn" />
+    <result column="codmn" jdbcType="VARCHAR" property="codmn" />
+    <result column="year" jdbcType="VARCHAR" property="year" />
+    <result column="wdo" jdbcType="VARCHAR" property="wdo" />
+    <result column="prewlevel" jdbcType="VARCHAR" property="prewlevel" />
+    <result column="contamination" jdbcType="VARCHAR" property="contamination" />
+  </resultMap>
+  <sql id="base_clounm_sql">
+  	wpubdate, waterplace, wph, 
+      thewlevel, a, nhthn, 
+      codmn, year, wdo, prewlevel, 
+      contamination
+  </sql>
+  
+  <select id="findSiteDate" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select <include refid="base_clounm_sql"></include>
+  	from site_data where waterplace=#{waterPlace,jdbcType=VARCHAR}
+  	ORDER BY  wpubdate desc limit 0,1
+  </select>
+  <select id="findSiteDataList" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select <include refid="base_clounm_sql"></include>
+  	from site_data where waterplace=#{waterplace,jdbcType=VARCHAR}
+  	<if test="limit !=null">
+  		order by wpubdate desc
+  		limit 0,#{limit,jdbcType=INTEGER}
+  	</if>
+  </select>
+  <select id="findSiteDataAverage" resultType="com.acme.app.dto.device.SiteDataAverage">
+  	SELECT AVG(wdo) AS wdo,AVG(nhthn) AS nhthn,
+	AVG(codmn) AS codmn,AVG(wph) AS wph FROM 
+	(SELECT * FROM site_data WHERE waterplace=#{waterplace,jdbcType=VARCHAR} ORDER BY wpubdate DESC LIMIT 0,#{limit,jdbcType=INTEGER}) AS site
+  </select>
+</mapper>

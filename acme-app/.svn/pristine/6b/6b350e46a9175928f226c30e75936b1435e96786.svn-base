@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<settings>
+		<setting name="useColumnLabel" value="true"/>
+        <setting name="useGeneratedKeys" value="true"/>
+		<setting name="mapUnderscoreToCamelCase" value="true"/>
+	</settings>
+	<plugins>
+		<plugin interceptor="com.acme.api.interceptor.MybatisPlugins"></plugin>
+	</plugins>
+	<mappers>
+		<!-- 设备 -->
+		<mapper resource="mapper/device/DeviceMapper.xml"/>
+		<mapper resource="mapper/device/SensorMapper.xml"/>
+		<mapper resource="mapper/device/DataPointMapper.xml"/>
+		<mapper resource="mapper/device/SiteDataMapper.xml"/>
+		<mapper resource="mapper/device/StationInfoMapper.xml"/>
+		<!-- 流域信息 -->
+		<mapper resource="mapper/river/AcmeRiverChildMapper.xml"/>
+		<mapper resource="mapper/river/AcmeRiverMapper.xml"/>
+		
+		<!-- 用户 -->
+		<mapper resource="mapper/user/UserMapper.xml"/>
+		<mapper resource="mapper/user/CompanyUserMapper.xml"/>
+		<mapper resource="mapper/premission/ComUserPremission.xml"/>
+	</mappers>
+</configuration>

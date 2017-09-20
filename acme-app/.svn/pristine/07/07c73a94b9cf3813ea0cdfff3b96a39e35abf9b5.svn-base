@@ -1,0 +1,116 @@
+package com.acme.app.mapper.user;
+
+import java.util.Date;
+import java.util.List;
+
+import com.acme.api.response.Page;
+import com.acme.app.model.user.User;
+
+public interface UserMapper {
+	/**
+	 * 通过主键删除用户
+	 * */
+	Long deleteByPrimaryKey(Long id);
+	/**
+	 * 通过mobile删除用户
+	 * */
+	String deleteUserByMobile(String mobile);
+	/**
+	 * 通过email删除用户
+	 * */
+	void deleteUserByEmail(String email);
+	/**
+	 * 添加用户
+	 * */
+    Long insert(User user);
+   
+    /**
+     * 通过主键查询用户
+     * */
+    User selectByPrimaryKey(Long id);
+    /**
+     * 查询所有用户
+     * */
+    List<User> selectUserList();
+    /**
+     * 通过mobile查询用户
+     * @param String mobile
+     * @return User
+     * */
+    User selectByMobile(String mobile);
+    
+    /**
+     * 通过UserKey查询用户
+     * @param String userKey
+     * @return  List<User>
+     * */
+    User selectByUserKey(String userKey);
+    /**
+     * 通过主键更新用户信息
+     * */
+
+    Long updateByPrimaryKey(User user);
+    
+    /**
+     * 通过mobile修改用户密码
+     * @param String mobile,String password
+     * @return String mobile
+     * 
+     * */
+    void updatePasswordByMobile(String mobile,String password,Date date);
+    
+    /**
+     * 通过mobile修改用户密码
+     * @param String mobile,String password
+     * @return String mobile
+     * 
+     * */
+    void updatePasswordByEmail(String email,String password);
+    /**
+     * 通过mobile更新用户信息
+     * */
+    void updateUserByMobile(User user);
+    
+    /**
+     * 通过id更新icon
+     * @param Long id，String icon
+     * */
+    void updateIconById(Long id,String icon);
+    /**
+     * 根据id统计总记录数
+     * */
+    Long getUserCount();
+    /**
+     * 分页查询数据
+     * @param Long start 数据起始位置 Long offset 数据位置偏移量
+     * @return 
+     * 
+     * */
+    Page<User> findUserByPage(Integer start,Integer offset);
+    /**
+     * 删除用户
+     * */
+	void deleteUser(String userKey, String mobile, String password);
+    
+	/**
+	 * 通过email查询用户信息
+	 * @param String
+	 * @return User
+	 * */
+	User selectByEmail(String email);
+	/**
+	 * 通过mobile和password查询，主要用于用户登录验证
+	 * @param String,String
+	 * @return User
+	 * */
+	User selectByMobileAndPassword(String mobile,String password);
+	
+	
+	/**
+	 * 通过id查询iconLong
+	 * @return User
+	 * @param 
+	 * */
+	User selectIconById(Long id);
+    
+}

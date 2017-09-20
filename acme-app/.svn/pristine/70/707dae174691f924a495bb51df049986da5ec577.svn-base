@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.acme.app.mapper.user.CompanyUserMapper">
+	 <sql id="set_column_list">
+  	  user_key = #{userKey,jdbcType=CHAR},
+      name = #{name,jdbcType=VARCHAR},
+      gender = #{gender},
+      mobile = #{mobile,jdbcType=CHAR},
+      email = #{email,jdbcType=VARCHAR},
+      icon = #{icon,jdbcType=VARCHAR},
+      create_id=#{createUser,jdbcType=BIGINT},
+      company=#{company,jdbcType=VARCHAR},
+      department=#{department,jdbcType=VARCHAR},
+      grade=#{grade},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP}
+  </sql>
+  
+  <resultMap id="BaseResultMap" type="com.acme.app.model.user.CompanyUser">
+    <id column="company_user_id" jdbcType="BIGINT" property="id" />
+    <result column="user_key" jdbcType="CHAR" property="userKey" /> 
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="gender" property="gender" />
+    <result column="mobile" jdbcType="CHAR" property="mobile" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="icon" jdbcType="VARCHAR" property="icon"/>
+    <result column="create_id" jdbcType="VARCHAR" property="createUser"/>
+    <result column="company" jdbcType="VARCHAR" property="company"/>
+    <result column="department" jdbcType="VARCHAR" property="department"/>
+    <result column="grade" property="grade"/>
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+  </resultMap>
+  <sql id="Base_Column_List">
+        company_user_id as id, user_key, name, gender, mobile, email, icon,create_id,company,department,grade, gmt_create, gmt_modified
+  </sql>
+   <delete id="deleteByEmail" parameterType="java.lang.String">
+  		delete 
+  		from company_user
+  		where email=#{email}
+  </delete>
+   <delete id="deleteByCompany" parameterType="java.lang.String">
+  		delete 
+  		from company_user
+  		where company=#{company}
+  </delete>
+  <delete id="deleteByDepartment">
+  		delete 
+  		from company_user
+  		where company=#{0} and department=#{1}
+  </delete>
+  <delete id="deleteByUserKey" parameterType="java.lang.String">
+  		delete 
+  		from company_user
+  		where user_key=#{userKey}
+  </delete>
+ 
+ <select id="selectById" parameterType="java.lang.Long" resultType="com.acme.app.model.user.CompanyUser">
+ 		select <include refid="Base_Column_List"></include>
+ 		from company_user
+ 		where company_user_id=#{id}
+ </select>
+  
+  
+  <insert id="insert" parameterType="com.acme.app.model.user.CompanyUser" useGeneratedKeys="true" keyProperty="id">
+  		insert into company_user (user_key, name, gender,password, mobile, 
+    						email, icon,create_id,company, department,grade,gmt_create, gmt_modified)
+    	values (#{userKey}, #{name}, 
+     						 #{gender},#{password}, #{mobile}, #{email}, #{icon}, 
+     						 #{createUser},#{company},#{department},#{grade},#{gmtCreate}, #{gmtModified})
+  
+  </insert>
+  <select id="getAllCompanyUser" resultMap="BaseResultMap">
+  		select
+			<include refid="Base_Column_List"></include>
+		from company_user
+  </select>
+  <select id="selectByEmail" parameterType="java.lang.String" resultType="com.acme.app.model.user.CompanyUser">
+  		select 
+  			<include refid="Base_Column_List"></include>
+  		from company_user
+  		where email=#{email}
+  		limit 1
+  </select>
+  <select id="selectByMobile" parameterType="java.lang.String" resultType="com.acme.app.model.user.CompanyUser">
+  		select 
+  			<include refid="Base_Column_List"></include>
+  		from company_user
+  		where mobile=#{mobile}
+  		limit 1
+  </select>
+  
+   <select id="selectByMobileAndPassword" resultType="com.acme.app.model.user.CompanyUser">
+  		select 
+  			<include refid="Base_Column_List"></include>
+  		from company_user
+  		where mobile=#{0} and password=#{1}
+  		limit 1
+  </select>
+   <select id="selectByEmailAndPassword" resultType="com.acme.app.model.user.CompanyUser">
+  		select 
+  			<include refid="Base_Column_List"></include>
+  		from company_user
+  		where email=#{0} and password=#{1}
+  		limit 1
+  </select>
+  <select id="selectByCompany" parameterType="java.lang.String" resultMap="BaseResultMap">
+  		select 
+  			<include refid="Base_Column_List"></include>
+  		from company_user
+  		where company=#{company}
+  </select>
+  <select id="selectByCompanyAndDepartment" resultMap="BaseResultMap">
+  		select 
+  			<include refid="Base_Column_List"></include>
+  		from company_user
+  		where company=#{0} and department=#{1}
+  </select>
+  <select id="selectByUserKey" parameterType="java.lang.String" resultType="com.acme.app.model.user.CompanyUser">
+	  	select 
+	  		<include refid="Base_Column_List"></include>
+	    from company_user
+	    where user_key=#{userKey}
+	    limit 1
+  </select>
+   
+  <select id="getCompanyUserCount" resultType="java.lang.Long">
+  		select count(company_user_id)
+  		from company_user
+  </select>
+  
+  <update id="updatePasswordByEmail">
+	    update company_user
+	    set 
+	    	password=#{1}
+	    where email = #{0}
+  </update>
+  
+   <update id="updateIconById">
+	    update company_user
+	    set 
+	    	icon=#{1}
+	    where company_user_id = #{0}
+  </update>
+  
+   <select id="selectIconById" parameterType="java.lang.Long" resultType="com.acme.app.model.user.CompanyUser">
+    select icon
+    <include refid="Base_Column_List" />
+    from company_user
+    where company_user_id = #{id}
+    limit 1
+  </select>
+ 
+</mapper>

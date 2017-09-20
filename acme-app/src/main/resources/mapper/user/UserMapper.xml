@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.acme.app.mapper.user.UserMapper">
+	 <sql id="set_column_list">
+  	  user_key = #{userKey,jdbcType=CHAR},
+      name = #{name,jdbcType=VARCHAR},
+      gender = #{gender},
+	<!--   password=#{password,jdbcType=CHAR}, -->
+      mobile = #{mobile,jdbcType=CHAR},
+      email = #{email,jdbcType=VARCHAR},
+      icon = #{icon,jdbcType=VARCHAR},
+      addr=#{addr,jdbcType=VARCHAR},
+      signature=#{signature,jdbcType=VARCHAR},
+     <!--  gmt_create = #{gmtCreate,jdbcType=TIMESTAMP}, -->
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP}
+  </sql>
+  
+  <resultMap id="BaseResultMap" type="com.acme.app.model.user.User">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="user_key" jdbcType="CHAR" property="userKey" /> 
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="gender" property="gender" />
+    <result column="mobile" jdbcType="CHAR" property="mobile" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="icon" jdbcType="VARCHAR" property="icon"/>
+    <result column="addr" jdbcType="VARCHAR" property="addr"/>
+    <result column="signature" jdbcType="VARCHAR" property="signature"/>
+    <result column="user_type" jdbcType="INTEGER" property="userType"/>
+    <result column="device_number" jdbcType="INTEGER" property="deviceNumber"/>
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_key, name, gender, mobile, email, icon,addr,signature,user_type,device_number, gmt_create, gmt_modified
+  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultType="com.acme.app.model.user.User">
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where id = #{id,jdbcType=BIGINT}
+    limit 1
+  </select>
+  <select id="selectByMobileAndPassword" resultType="com.acme.app.model.user.User">
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where mobile = #{0}
+    and password=#{1}
+    limit 1
+  </select>
+ 
+  <select id="getUserCount" resultType="java.lang.Long">
+  	select count(id) from user
+  </select>
+  
+  <select id="findAllUsers" resultMap="BaseResultMap">
+	  select 
+	  <include refid="Base_Column_List"></include>
+	  from user
+  </select>
+  
+   <select id="selectByMobile" parameterType="java.lang.String" resultType="com.acme.app.model.user.User">
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where mobile = #{mobile,jdbcType=CHAR}
+    limit 1
+  </select>
+  
+  
+  <select id="selectIconById" parameterType="java.lang.Long" resultType="com.acme.app.model.user.User">
+    select icon
+    <!-- <include refid="Base_Column_List" /> -->
+    from user
+    where id = #{id}
+    limit 1
+  </select>
+   <select id="selectByUserKey" parameterType="java.lang.String" resultType="com.acme.app.model.user.User">
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where user_key = #{userKey,jdbcType=CHAR}
+    limit 1
+  </select>
+  
+   <select id="selectByEmail" parameterType="java.lang.String" resultType="com.acme.app.model.user.User">
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where email = #{email,jdbcType=CHAR}
+    limit 1
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from user
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+   <delete id="deleteByMobile" parameterType="java.lang.String">
+    delete from user
+    where mobile = #{mobile,jdbcType=CHAR}
+  </delete>
+  <delete id="deleteUserByEmail" parameterType="java.lang.String">
+    delete from user
+    where email = #{email}
+  </delete>
+  
+  <insert id="insert" parameterType="com.acme.app.model.user.User" useGeneratedKeys="true" keyProperty="id">
+    insert into user (user_key, name, gender,password, mobile, 
+    email, icon,addr,signature,user_type,device_number, gmt_create, gmt_modified)
+    values (#{userKey}, #{name}, 
+      #{gender},#{password}, #{mobile}, #{email}, #{icon}, 
+      #{addr},#{signature},#{userType},#{deviceNumber},#{gmtCreate}, #{gmtModified})
+  </insert>
+  
+   <update id="updateByPrimaryKey" parameterType="com.acme.app.model.user.User">
+    update user
+    set 
+    <include refid="set_column_list"></include>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  
+    <update id="updateIconById">
+    update user
+    set 
+    icon=#{1}
+    where id = #{0}
+  </update>
+  <update id="updateUserByMobile" parameterType="com.acme.app.model.user.User">
+    update user
+    set 
+    <include refid="set_column_list"></include>
+    where mobile = #{mobile,jdbcType=CHAR}
+  </update>
+  
+  <update id="updatePasswordByEmail">
+    update user
+    set 
+    password=#{1}
+    where email = #{0}
+  </update>
+  
+  <update id="updatePasswordByMobile">
+  		update user
+  		set password=#{1},gmt_create=#{2}
+  		where mobile=#{0}
+  </update>
+</mapper>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.acme.app.mapper.river.AcmeRiverMapper">
+  <resultMap id="BaseResultMap" type="com.acme.app.model.river.AcmeRiver">
+    <id column="river_id" jdbcType="BIGINT" property="riverId" />
+    <result column="id" jdbcType="BIGINT" property="id" />
+    <result column="river_name" jdbcType="VARCHAR" property="riverName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    river_id, id, river_name
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from acme_river
+    where river_id = #{riverId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from acme_river
+    where river_id = #{riverId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.acme.app.model.river.AcmeRiver">
+    insert into acme_river (river_id, id, river_name
+      )
+    values (#{riverId,jdbcType=BIGINT}, #{id,jdbcType=BIGINT}, #{riverName,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.acme.app.model.river.AcmeRiver">
+    insert into acme_river
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="riverId != null">
+        river_id,
+      </if>
+      <if test="id != null">
+        id,
+      </if>
+      <if test="riverName != null">
+        river_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="riverId != null">
+        #{riverId,jdbcType=BIGINT},
+      </if>
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="riverName != null">
+        #{riverName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.acme.app.model.river.AcmeRiver">
+    update acme_river
+    <set>
+      <if test="id != null">
+        id = #{id,jdbcType=BIGINT},
+      </if>
+      <if test="riverName != null">
+        river_name = #{riverName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where river_id = #{riverId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.acme.app.model.river.AcmeRiver">
+    update acme_river
+    set id = #{id,jdbcType=BIGINT},
+      river_name = #{riverName,jdbcType=VARCHAR}
+    where river_id = #{riverId,jdbcType=BIGINT}
+  </update>
+</mapper>
